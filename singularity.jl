@@ -6,9 +6,8 @@ xgrid=-1:0.01:1;
 f=[1/gamma(1+u)*(Inclusion(-1..1).+1).^u for u in U]
 err=zeros(length(N),length(U))
 for n=1:length(N)
-    Threads.@threads for u=1:length(U)
-        println("$(N[n]) $(U[u])")
-        fv=S[:,1:N[n]]\f[u];
+    for u=1:length(U)
+        fv=S[:,1:N[n]]\f[u]
         err[n,u]=maximum(abs.(S[xgrid,1:N[n]]*fv-f[u][xgrid]))
     end
 end
