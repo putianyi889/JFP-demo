@@ -10,13 +10,14 @@ layout=Layout(
             text="column index",
             font_size=20,
             font_family="Times New Roman",
-            font_color="black"
+            font_color="black",
         ),
         tickfont_family="Times New Roman",
         tickfont_size=15,
         tickfont_color="black",
         mirror=true, showline=true,
-        linecolor="black"
+        linecolor="black",
+        side="top"
     ), 
     yaxis=attr(
         title=attr(
@@ -33,7 +34,9 @@ layout=Layout(
         showline=true,
         linecolor="black"
     ), 
-    plot_bgcolor="white"
+    plot_bgcolor="white",
+    width=400,
+    height=400
 )
 
 # implicit
