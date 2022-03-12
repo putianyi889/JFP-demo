@@ -1,9 +1,10 @@
 include("testmodule.jl")
 using PlotlyJS, PlotlyBase
-α=0.0;β=0.0;b=0.0;p=2;μ=0.5;N=20;
+α=0.0;β=0.0;b=-1;p=2;μ=0.5;N=200;
+(α,β,b,μ)=BigFloat.((α,β,b,μ));
 iopref=testmodule.OpI22_stable(α,β,b,p,μ,N);
-iop11=testmodule.OpI11(α,β,b,p,μ,N);
-iop13=testmodule.OpI13(α,β,b,p,μ,N);
+iop21=testmodule.OpI21(α,β,b,p,μ,N);
+iop22=testmodule.OpI22_unstable(α,β,b,p,μ,N);
 
 # plot configuration
 layout=Layout(
@@ -41,10 +42,10 @@ layout=Layout(
     height=400
 )
 
-# implicit
+# integral by part
 plt1=PlotlyJS.plot(
     PlotlyJS.contour(
-        z=log10.(abs.(iopref-iop11)), 
+        z=log10.(abs.(iopref-iop21)), 
         contours_showlabels=true, 
         contours_coloring="lines", 
         contours_labelfont_family="Times New Roman",
@@ -56,12 +57,13 @@ plt1=PlotlyJS.plot(
     layout
 )
 
-# explicit
+# commutativity
 plt2=PlotlyJS.plot(
     PlotlyJS.contour(
-        z=log10.(abs.(iopref-iop13)), 
-        contours=attr(showlabels=true, coloring="lines", start=-17, size=1, labelfont_family="Times New Roman"),
-        contours_end=17,
+        z=log10.(abs.(iopref-iop22)), 
+        contours_showlabels=true, 
+        contours_coloring="lines", 
+        contours_labelfont_family="Times New Roman",
         connectgaps=true, 
         line_smoothing=0.5, 
         showscale=false, 
