@@ -3,8 +3,10 @@ using PlotlyJS, PlotlyBase
 α=0.0;β=0.0;b=-1;p=2;μ=0.5;N=200;
 (α,β,b,μ)=BigFloat.((α,β,b,μ));
 iopref=testmodule.OpI22_stable(α,β,b,p,μ,N);
-iop21=testmodule.OpI21(α,β,b,p,μ,N);
-iop22=testmodule.OpI22_unstable(α,β,b,p,μ,N);
+err21=Float64.(log10.(abs.(iopref-testmodule.OpI21(α,β,b,p,μ,N))))
+err22=Float64.(log10.(abs.(iopref-testmodule.OpI22(α,β,b,p,μ,N))))
+m21=findmax(err21, dims=1)
+m22=findmax(err22, dims=1)
 
 # plot configuration
 layout=Layout(
@@ -45,10 +47,11 @@ layout=Layout(
 # integral by part
 plt1=PlotlyJS.plot(
     PlotlyJS.contour(
-        z=log10.(abs.(iopref-iop21)), 
+        z=err21, 
         contours_showlabels=true, 
         contours_coloring="lines", 
         contours_labelfont_family="Times New Roman",
+        contours_start=-80, contours_size=10, contours_end=80,
         connectgaps=true, 
         line_smoothing=0.5, 
         showscale=false, 
@@ -60,10 +63,11 @@ plt1=PlotlyJS.plot(
 # commutativity
 plt2=PlotlyJS.plot(
     PlotlyJS.contour(
-        z=log10.(abs.(iopref-iop22)), 
+        z=err22, 
         contours_showlabels=true, 
         contours_coloring="lines", 
         contours_labelfont_family="Times New Roman",
+        contours_start=-80, contours_size=10, contours_end=80,
         connectgaps=true, 
         line_smoothing=0.5, 
         showscale=false, 

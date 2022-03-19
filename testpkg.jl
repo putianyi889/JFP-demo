@@ -1,4 +1,5 @@
 using BlockArrays, QuasiArrays
+using BandedMatrices: BandedColumnMajor, bidiagonalize!
 
 export mul_kbn
 
@@ -58,6 +59,61 @@ function mul_kbn(A,B)
 end
 
 Base.issubset(A::AbstractQuasiArray,B::AbstractQuasiArray) = true
+
+function BandedMatrices._bidiagonalize!(A::AbstractMatrix{BigFloat}, M::BandedColumnMajor)
+    m,n=size(A)
+    if m!=n
+        ErrorException("Not implemented for m=$m and n=$n.")
+    end
+    U=zeros(BigFloat,m,m)
+    V=zeros(BigFloat,n,n)
+    α = Vector{BigFloat}(undef, m)
+    β = Vector{BigFloat}(undef, m-1)
+    V[1,1]=1
+    U[:,1]=A[:,1]
+    α[1]=norm(U[:,1])
+    U[:,1]=U[:,1]/α[1]
+    for k=2:m
+        @views V[:,k]=(U[:,k-1]'*A)'-α[k-1]*V[:,k-1]
+        @views β[k-1]=norm(V[:,k])
+        @views V[:,k]=V[:,k]/β[k-1]
+        @views U[:,k]=A*V[:,k]-β[k-1]*U[:,k-1]
+        @views α[k]=norm(U[:,k])
+        @views U[:,k]=U[:,k]/α[k]
+    end
+    Bidiagonal(α,β,:U)
+end
+
+function BandedMatrices.bidiagonalize!(A::AbstractMatrix{BigFloat}, M::BandedColumnMajor)
+    m,n=size(A)
+    if m!=n
+        ErrorException("Not implemented for m=$m and n=$n.")
+    end
+    U=zeros(BigFloat,m,m)
+    V=zeros(BigFloat,n,n)
+    α = Vector{BigFloat}(undef, m)
+    β = Vector{BigFloat}(undef, m-1)
+    V[1,1]=1
+    U[:,1]=A[:,1]
+    α[1]=norm(U[:,1])
+    U[:,1]=U[:,1]/α[1]
+    for k=2:m
+        @views V[:,k]=(U[:,k-1]'*A)'-α[k-1]*V[:,k-1]
+        @views β[k-1]=norm(V[:,k])
+        @views V[:,k]=V[:,k]/β[k-1]
+        @views U[:,k]=A*V[:,k]-β[k-1]*U[:,k-1]
+        @views α[k]=norm(U[:,k])
+        @views U[:,k]=U[:,k]/α[k]
+    end
+    Bidiagonal(α,β,:U)
+end
+
+function LinearAlgebra.cond(A::BandedMatrix{BigFloat})
+    B=bidiagonalize!(A)
+    B=BandedMatrix(0=>B.dv,1=>B.ev)
+    v=eigvals(SymTridiagonal(B'*B)))
+    sqrt(v[end]/v[1])
+end
 
 # New package
 export FunArray,FunVector,FunMatrix
