@@ -44,12 +44,14 @@ plot!([0 0],[-1 -1], color=:black, label=["numerical" "exact"], linestyle=[:soli
 
 # Condition
 using Plots, ApproxFun, LinearAlgebra
-S = Jacobi(0.0,0.0) ⊕ JacobiWeight(-0.5,0.,Jacobi(-0.5,0.5));
-Q = LeftIntegral(S,0.5);
+setprecision(896)
+Sb = Jacobi(BigFloat(0.0),1.0) ⊕ JacobiWeight(BigFloat(0.5),0.,Jacobi(BigFloat(0.5),0.5));
+Qb = LeftIntegral(Sb,BigFloat(0.5));
 condnum=zeros(200,16)
-for n=1:16
-    @qbthreads for N=1:200
-        condnum[N,n]=cond((I+sqrt(n)*Q)[1:N,1:N])
+for λ in 1:4
+    op=(I+λ^2*Q)[1:800,1:800]
+    for N=1:800
+        condnum[N,λ]=cond((I+λ^2*Q)[1:N,1:N])
     end
 end
 plot(condnum,yaxis=:log)
