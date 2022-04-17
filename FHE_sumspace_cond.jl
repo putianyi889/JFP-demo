@@ -1,5 +1,6 @@
 include("testmodule.jl")
-using Plots, ApproxFun, LinearAlgebra, GenericLinearAlgebra, BandedMatrices, ThreadPools, JLD
+using Plots, ApproxFun, LinearAlgebra, GenericLinearAlgebra, BandedMatrices, ThreadPools, JLD, LaTeXStrings
+pgfplotsx()
 
 setprecision(4096)
 Sb = Jacobi(BigFloat(0.0),1.0) ⊕ JacobiWeight(BigFloat(0.5),0.,Jacobi(BigFloat(0.5),0.5));
@@ -43,4 +44,8 @@ test=cond(Matrix(op))
 @load "cond_sumspace_3.jld"
 @load "cond_sumspace_4.jld"
 @load "cond_sumspace_5.jld"
-plot(cond4,yaxis=:log,legend=false)
+append!(cond1,fill(cond1[end],970))
+append!(cond2,fill(cond2[end],930))
+append!(cond3,fill(cond3[end],700))
+plot([cond1 cond2 cond3 cond4],yaxis=:log,legend=:topleft, size=(300,250), labels=latexstring.("\\lambda=",[1 2 3 4]), xlabel="truncation size", ylabel="condition number", linestyle=[:solid :dash :dashdot :dot])
+plot([1,2,3,4], log10.(log10.([cond1[end],cond2[end],cond3[end],cond4[end]])), yticks=(0:1:3, latexstring.("\$10^{10^{",0:1:3,"}}\$")), xaxis=:log10, xticks=10.0.^(0:0.2:1), markers=true, markersize=2, xlabel=L"\lambda", ylabel="condition number", size=(300,250), legend=false)
