@@ -1,6 +1,6 @@
 # Fractional heat equation (sumspace)
 include("testmodule.jl")
-using Plots, ApproxFun, LinearAlgebra, SpecialFunctions, Beep, GenericSVD, ThreadPools
+using Plots, ApproxFun, LinearAlgebra, SpecialFunctions, Beep, GenericLinearAlgebra, ThreadPools, LaTeXStrings
 using Plots.PlotMeasures
 pgfplotsx()
 
@@ -13,7 +13,12 @@ for n=1:5
     @time yy=((I+n^2*Q) \ 1).coefficients
     y[1:min(length(yy),N),n]=yy[1:min(length(yy),N)]
 end
-plot(abs.(y), size=(400,250), xlabel="coefficient index", ylabel="coefficient value (abs)", ylims=(1e-17,1e14), yaxis=:log, legend=:topright, label=false)
+plot(abs.(y), size=(300,250), xlabel="coefficient index", ylabel="coefficient value (abs)", ylims=(1e-17,1e14), yaxis=:log, legend=:topright, label=false)
+plot!([25],[abs(y[25,1])],markers=:xcross, label=L"\lambda=1", color=1, markersize=5)
+plot!([100],[abs(y[100,2])],markers=:circle, label=L"\lambda=2", color=2, markersize=3)
+plot!([190],[abs(y[190,3])],markers=:star5, label=L"\lambda=3", color=3)
+plot!([300],[abs(y[300,4])],markers=:diamond, label=L"\lambda=4", color=4)
+plot!([400],[abs(y[400,5])],markers=:utriangle, label=L"\lambda=5", color=5)
 
 # BigFloat
 Nb=5000;
@@ -26,7 +31,12 @@ for n=1:5
     yb[1:min(length(yy),Nb),n]=yy[1:min(length(yy),Nb)]
 end
 yt=-800:200:600;
-plot(log10.(abs.(yb)), size=(400,250), xlabel="coefficient index", ylabel="coefficient value (abs)", legend=:topright, label=false, yticks=(yt,string.("10^{",yt,"}")))
+plot(log10.(abs.(yb)), size=(300,250), xlabel="coefficient index", ylabel="coefficient value (abs)", legend=:topright, label=false, yticks=(yt,string.("10^{",yt,"}")))
+plot!([630],[log10(abs(yb[630,1]))],markers=:xcross, label=L"\lambda=1", color=1, markersize=5)
+plot!([1000],[log10(abs(yb[1000,2]))],markers=:circle, label=L"\lambda=2", color=2, markersize=3)
+plot!([1500],[log10(abs(yb[1500,3]))],markers=:star5, label=L"\lambda=3", color=3)
+plot!([2200],[log10(abs(yb[2200,4]))],markers=:diamond, label=L"\lambda=4", color=4)
+plot!([3300],[log10(abs(yb[3300,5]))],markers=:utriangle, label=L"\lambda=5", color=5)
 
 # Sketch of solution
 xgrid=vcat(-0.99999,-0.99:0.01:1);
