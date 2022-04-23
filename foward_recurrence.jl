@@ -1,10 +1,10 @@
 include("testmodule.jl")
 using PlotlyJS, PlotlyBase
-α=0.0;β=0.0;b=-1;p=2;μ=0.5;N=200;
+α=0.0;β=0.0;b=0;p=2;μ=0.5;N=200;
 (α,β,b,μ)=BigFloat.((α,β,b,μ));
 iopref=testmodule.OpI22_stable(α,β,b,p,μ,N);
 err21=Float64.(log10.(abs.(iopref-testmodule.OpI21(α,β,b,p,μ,N))))
-err22=Float64.(log10.(abs.(iopref-testmodule.OpI22(α,β,b,p,μ,N))))
+err22=Float64.(log10.(abs.(iopref-testmodule.OpI22_unstable(α,β,b,p,μ,N))))
 m21=findmax(err21, dims=1)
 m22=findmax(err22, dims=1)
 
@@ -45,8 +45,8 @@ layout=Layout(
 )
 
 # integral by part
-plt1=PlotlyJS.plot(
-    PlotlyJS.contour(
+plt1=plot(
+    contour(
         z=err21, 
         contours_showlabels=true, 
         contours_coloring="lines", 
@@ -61,8 +61,8 @@ plt1=PlotlyJS.plot(
 )
 
 # commutativity
-plt2=PlotlyJS.plot(
-    PlotlyJS.contour(
+plt2=plot(
+    contour(
         z=err22, 
         contours_showlabels=true, 
         contours_coloring="lines", 
