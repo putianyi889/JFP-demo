@@ -2,7 +2,7 @@ include("testmodule.jl")
 using Plots, ClassicalOrthogonalPolynomials, LinearAlgebra, LaTeXStrings
 pgfplotsx()
 
-α=-1.0;β=1.0;b=0;p=2;μ=0.5;N=500; # parameters
+α=0.0;β=0.0;b=0;p=2;μ=0.5;N=500; # parameters
 xgrid=-1:0.01:1;
 ygrid=testmodule.x2y.(xgrid,p);
 S=Jacobi(α,β);
