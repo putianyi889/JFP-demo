@@ -2,6 +2,7 @@
 include("testmodule.jl")
 using ClassicalOrthogonalPolynomials, ContinuumArrays, LinearAlgebra, SpecialFunctions, Plots
 pgfplotsx()
+default(size=(300,250), framestyle=:box, legend=false, foreground_color_grid=:gray90, gridalpha=1)
 α=0.0;β=0.0;b=0;p=2.0;N=30;
 x=Inclusion(-1..1);
 y=testmodule.y2x(p);
@@ -25,10 +26,10 @@ Qgrid=(1 .+ ygrid).^b .* S[ygrid,1:N+1]
 sol=Qgrid*uv;
 
 # plot solution
-plot(xgrid, sol, xlims=(-1,1), xlabel="\$x\$", legend=false, size=(400,300), framestyle=:box, ylabel="\$u(x)\$")
+plot(xgrid, sol, xlims=(-1,1), xlabel="\$x\$", ylabel="\$u(x)\$")
 
 # plot coefficients
-plot(1:N+1, abs.(uv), yaxis=:log, xlabel="coefficient index", legend=false, size=(400,300), framestyle=:box, ylabel="absolute value of coefficients")
+plot(1:N+1, abs.(uv), yaxis=:log, xlabel="coefficient index", ylabel="absolute value of coefficients")
 
 
 ## u-erfc(sqrt(1+x))I^0.5u=1
@@ -57,10 +58,10 @@ Qgrid=(1 .+ ygrid).^b .* S[ygrid,1:N+1]
 sol=Qgrid*uv;
 
 # plot solution
-plot(xgrid, sol, xlims=(-1,1), xlabel="\$x\$", legend=false, size=(400,300), framestyle=:box, ylabel="\$u(x)\$")
+plot(xgrid, sol, xlims=(-1,1), xlabel="\$x\$", ylabel="\$u(x)\$")
 
 # plot coefficients
-plot(1:N+1, abs.(uv), yaxis=:log, xlabel="coefficient index", legend=false, size=(400,300), framestyle=:box, ylabel="absolute value of coefficients")
+plot(1:N+1, abs.(uv), yaxis=:log, xlabel="coefficient index", ylabel="absolute value of coefficients")
 
 # Bagley–Torvik
 include("testmodule.jl")
@@ -94,7 +95,7 @@ solrl=Qgrid*uvrl .+ arl*(xgrid.+1) .+ 1;
 solc=Qgrid*uvc .+ ac*(xgrid.+1) .+ 1;
 
 # plot solutions
-plot(xgrid, [solrl solc], xlims=(-1,1), xlabel="\$x\$", size=(400,300), framestyle=:box, ylabel="\$u(x)\$", labels=["RL type" "Caputo type"], legend=:bottomleft, linestyle=[:solid :dash])
+plot(xgrid, [solrl solc], xlims=(-1,1), xlabel="\$x\$", ylabel="\$u(x)\$", labels=["RL type" "Caputo type"], legend=:bottomleft, linestyle=[:solid :dash])
 
 # plot coefficients of I^2*v
-plot(1:N+1, abs.([uvrl uvc]), yaxis=:log, xlabel="coefficient index", labels=["RL type" "Caputo type"], size=(400,300), framestyle=:box, ylabel="absolute value of coefficients", legend=:bottomleft, linestyle=[:solid :dash])
+plot(1:N+1, abs.([uvrl uvc]), yaxis=:log, xlabel="coefficient index", labels=["RL type" "Caputo type"], ylabel="absolute value of coefficients", legend=:bottomleft, linestyle=[:solid :dash])
