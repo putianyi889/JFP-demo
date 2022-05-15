@@ -11,24 +11,23 @@ layout=Layout(
         title=attr(
             text="column index",
             font_size=20,
-            font_family="Times New Roman",
+            font_family="Helvetica",
             font_color="black",
         ),
-        tickfont_family="Times New Roman",
+        tickfont_family="Helvetica",
         tickfont_size=15,
         tickfont_color="black",
         mirror=true, showline=true,
         linecolor="black",
-        side="top"
     ), 
     yaxis=attr(
         title=attr(
             text="row index",
             font_size=20,
-            font_family="Times New Roman",
+            font_family="Helvetica",
             font_color="black"
         ),
-        tickfont_family="Times New Roman",
+        tickfont_family="Helvetica",
         tickfont_size=15,
         tickfont_color="black",
         autorange="reversed",
@@ -36,6 +35,7 @@ layout=Layout(
         showline=true,
         linecolor="black"
     ), 
+    margin=attr(l=0,r=0,b=0,t=0),
     plot_bgcolor="white",
     width=400,
     height=400
@@ -47,7 +47,7 @@ plt1=PlotlyJS.plot(
         z=log10.(abs.(iopref-iop11)), 
         contours_showlabels=true, 
         contours_coloring="lines", 
-        contours_labelfont_family="Times New Roman",
+        contours_labelfont_family="Helvetica",
         connectgaps=true, 
         line_smoothing=0.5, 
         showscale=false, 
@@ -60,7 +60,7 @@ plt1=PlotlyJS.plot(
 plt2=PlotlyJS.plot(
     PlotlyJS.contour(
         z=log10.(abs.(iopref-iop13)), 
-        contours=attr(showlabels=true, coloring="lines", start=-17, size=1, labelfont_family="Times New Roman"),
+        contours=attr(showlabels=true, coloring="lines", start=-17, size=1, labelfont_family="Helvetica"),
         contours_end=17,
         connectgaps=true, 
         line_smoothing=0.5, 
