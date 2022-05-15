@@ -26,3 +26,7 @@ Manifest.toml
 *.jld
 *.zip
 *.pdf
+*.eps
+*.tex
+*.svg
+*.mat
