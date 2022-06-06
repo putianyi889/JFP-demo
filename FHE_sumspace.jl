@@ -1,6 +1,6 @@
 # Fractional heat equation (sumspace)
 include("testmodule.jl")
-using Plots, ApproxFun, LinearAlgebra, SpecialFunctions, Beep, GenericLinearAlgebra, ThreadPools, LaTeXStrings
+using Plots, ApproxFun, LinearAlgebra, SpecialFunctions, GenericLinearAlgebra, ThreadPools, LaTeXStrings
 using Plots.PlotMeasures
 pgfplotsx()
 
@@ -53,16 +53,21 @@ annotate!(-0.8,0.06,"\$\\lambda=3\$");
 plot!([0 0],[-1 -1], color=:black, label=["numerical" "exact"], linestyle=[:solid :dash])
 
 # Condition
-using Plots, ApproxFun, LinearAlgebra
-setprecision(896)
+using LinearAlgebra
+include("testmodule.jl")
+using Plots, ApproxFun, LinearAlgebra, GenericLinearAlgebra
+pgfplotsx()
+setprecision(2048)
 Sb = Jacobi(BigFloat(0.0),1.0) ⊕ JacobiWeight(BigFloat(0.5),0.,Jacobi(BigFloat(0.5),0.5));
 Qb = LeftIntegral(Sb,BigFloat(0.5));
-condnum=zeros(200,16)
+condnum=zeros(800,4)
+# Compute condition numbers for every truncation size. This process can take a long time. Consider using a large step to get a brief view of the overall complexity before going for a full run.
 for λ in 1:4
-    op=(I+λ^2*Q)[1:800,1:800]
+    op=(I+λ^2*Qb)[1:800,1:800]
     for N=1:800
-        condnum[N,λ]=cond((I+λ^2*Q)[1:N,1:N])
+        print(N," ")
+        condnum[N,λ]=cond((I+λ^2*Qb)[1:N,1:N])
     end
 end
-plot(condnum,yaxis=:log)
-plot(condnum[end,:],yaxis=:log)
+plot(condnum,yaxis=:log, legend=:topleft)
+plot(log10.(condnum[end,:]), yaxis=:log, xaxis=:log, xlabel="\$\\lambda\$", ylabel="\$\\log_{10}cond\$") # cond=10^(O(λ^4))
