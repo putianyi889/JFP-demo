@@ -40,34 +40,43 @@ plot!([3300],[log10(abs(yb[3300,5]))],markers=:utriangle, label=L"\lambda=5", co
 
 # Sketch of solution
 xgrid=vcat(-0.99999,-0.99:0.01:1);
-f1=Fun(S,y[:,1]).(xgrid));
+f1=Fun(S,y[:,1]).(xgrid);
 f2=Fun(S,y[:,2]).(xgrid);
 f3=Fun(S,y[:,3]).(xgrid);
 @time fb1=Fun(Sb,yb[:,1]).(BigFloat.(xgrid));
 @time fb2=Fun(Sb,yb[:,2]).(BigFloat.(xgrid));
 @time fb3=Fun(Sb,yb[:,3]).(BigFloat.(xgrid));
-plot(-1:0.01:1,[f1 f2 f3 fb1 fb2 fb3], xlims=(-1,1), ylims=(0,1), label=false, size=(300,250), linestyle=[:solid :solid :solid :dash :dash :dash], color=[:blue :red :green :blue :red :green], legend=:topright);
-annotate!(0.5,0.42,"\$\\lambda=1\$");
-annotate!(0.0,0.2,"\$\\lambda=2\$");
-annotate!(-0.8,0.06,"\$\\lambda=3\$");
+plot(-1:0.01:1,[f1 f2 f3 fb1 fb2 fb3], xlims=(-1,1), ylims=(0,1), label=false, size=(300,250), linestyle=[:solid :solid :solid :dash :dash :dash], color=[1 2 3 1 2 3], legend=:topright, xlabel="\$x\$", ylabel="\$u(x)\$");
+annotate!(0.5,0.42,text("\$\\lambda=1\$",10));
+annotate!(0.0,0.2,text("\$\\lambda=2\$",10));
+annotate!(-0.8,0.06,text("\$\\lambda=3\$",10));
 plot!([0 0],[-1 -1], color=:black, label=["numerical" "exact"], linestyle=[:solid :dash])
 
-# Condition
-using LinearAlgebra
+# Condition numbers
 include("testmodule.jl")
-using Plots, ApproxFun, LinearAlgebra, GenericLinearAlgebra
+using Plots, ApproxFun, LinearAlgebra, GenericLinearAlgebra, ThreadPools
 pgfplotsx()
+
 setprecision(2048)
 Sb = Jacobi(BigFloat(0.0),1.0) ⊕ JacobiWeight(BigFloat(0.5),0.,Jacobi(BigFloat(0.5),0.5));
 Qb = LeftIntegral(Sb,BigFloat(0.5));
+
+# Compute condition numbers for every truncation size. 
+# This process can take a long time (O(N^2) in time and O(N) in space for each condition number). Consider using a large step to get a brief view of the overall complexity before going for a full run.
+# Consider MultiFloats.jl for faster high-precision operations, but keep in mind that the package can be neither fully reliable nor actively maintained (which was the reason we didn't use it in our paper).
 condnum=zeros(800,4)
-# Compute condition numbers for every truncation size. This process can take a long time. Consider using a large step to get a brief view of the overall complexity before going for a full run.
 for λ in 1:4
     op=(I+λ^2*Qb)[1:800,1:800]
-    for N=1:800
-        print(N," ")
+    @qthreads for N=1:800
+        println("λ=$λ, N=$N: ")
         condnum[N,λ]=cond((I+λ^2*Qb)[1:N,1:N])
     end
 end
-plot(condnum,yaxis=:log, legend=:topleft)
-plot(log10.(condnum[end,:]), yaxis=:log, xaxis=:log, xlabel="\$\\lambda\$", ylabel="\$\\log_{10}cond\$") # cond=10^(O(λ^4))
+
+# Or load our results directly:
+using JLD
+condnum=load("condnum.jld", "condnum")
+
+# Plot the results
+plot(condnum,yaxis=:log, legend=:topleft, labels=string.("\$\\lambda=",(1:4)',"\$"), xlabel="truncation size", ylabel="condition number", linestyle=[:solid :dash :dashdot :dot], size=(300,250), framestyle=:box, xlims=(0,800))
+plot(log10.(log10.(condnum[end,:])), xaxis=:log, xlabel="\$\\lambda\$", ylabel="condition number", framestyle=:box, markers=true, grid=false, size=(300,250), legend=false, yticks=(0:1:3, latexstring.("\$10^{10^{",0:1:3,"}}\$"))) # cond=10^(O(λ^4))

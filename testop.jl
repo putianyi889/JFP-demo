@@ -47,6 +47,10 @@ function OpC(α,β,N)
     return ret
 end
 
+OpD(b,p) = Diagonal((2.0^(1-1/p)) .^ (b.+(0:∞)))
+OpD(b,p,N) = Diagonal((2.0^(1-1/p)) .^ (b.+(0:N)))
+OpC(α,β,b,p,N) = OpD(b,p,N)*OpC(α,β,N)
+
 OpΛ(r,μ) = BandedMatrix(-1=>(gamma.((r+1):μ:∞)./gamma.((r+μ+1):μ:∞)))
 OpΛ(r,μ,k) = BandedMatrix(-k=>(gamma.((r+1):μ:∞)./gamma.((r+k*μ+1):μ:∞)))
 

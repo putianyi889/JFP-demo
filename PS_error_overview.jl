@@ -1,6 +1,7 @@
 include("testmodule.jl")
 using Plots
 pgfplotsx()
+default(framestyle=:box, grid=false, size=(300,250))
 α=0.0;β=0.0;b=0;p=2;μ=0.5;N=500;
 
 # compute the operator in different ways
@@ -18,7 +19,7 @@ errhigh=maximum(abs.(iopref-iophigh),dims=1);
 errhybrid=maximum(abs.(iopref-iophybrid),dims=1);
 
 # error overview
-plt=plot([errlow' errhigh' errhybrid'], ylims=(1e-90,1e300), yaxis=:log, size=(400,300), legend=:topleft, linestyle=[:dash :solid :dot], linecolor=[:blue :black :red], labels=["double precision" "256-bit precision" "hybrid precision"], xlabel="column index", ylabel="maximum error", yticks=10. .^(-90:45:270))
+plt=plot([errlow' errhigh' errhybrid'], ylims=(1e-90,1e300), yaxis=:log, legend=:bottomright, linestyle=[:dash :solid :dot], linecolor=[:blue :black :red], labels=["double precision" "256-bit precision" "hybrid precision"], xlabel="column index", ylabel="maximum error", yticks=10. .^(-90:45:270))
 
 # growth rate
-plt=plot((x->x[2:end,:]./x[1:end-1,:])([errlow' errhigh' errhybrid']), xlabel="column index", ylabel="growth rate", labels=["double precision" "256-bit precision" "hybrid precision"], linestyle=[:solid :dash :dot], linecolor=[:black :blue :red], legend=:topleft, size=(400,300))
+plt=plot((x->x[2:end,:]./x[1:end-1,:])([errlow' errhigh' errhybrid']), xlabel="column index", ylabel="growth rate", labels=["double precision" "256-bit precision" "hybrid precision"], linestyle=[:solid :dash :dot], linecolor=[:black :blue :red], legend=:bottomright)
