@@ -75,7 +75,7 @@ end
 
 # Or load our results directly:
 using JLD
-condnum=load("condnum.jld", "condnum")
+condnum=load("condnum.jld", "condnum") # download the file from https://github.com/putianyi889/JFP-demo/issues/4
 
 # Plot the results
 plot(condnum,yaxis=:log, legend=:topleft, labels=string.("\$\\lambda=",(1:4)',"\$"), xlabel="truncation size", ylabel="condition number", linestyle=[:solid :dash :dashdot :dot], size=(300,250), framestyle=:box, xlims=(0,800))
