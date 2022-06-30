@@ -4,7 +4,7 @@ using Plots, ApproxFun, LinearAlgebra, SpecialFunctions, GenericLinearAlgebra, T
 using Plots.PlotMeasures
 pgfplotsx()
 
-# Float64
+# Float64 (7a)
 N=600;
 S = Jacobi(0.0,0.0) ⊕ JacobiWeight(-0.5,0.,Jacobi(-0.5,0.5));
 Q = LeftIntegral(S,0.5);
@@ -20,7 +20,7 @@ plot!([190],[abs(y[190,3])],markers=:star5, label=L"\lambda=3", color=3)
 plot!([300],[abs(y[300,4])],markers=:diamond, label=L"\lambda=4", color=4)
 plot!([400],[abs(y[400,5])],markers=:utriangle, label=L"\lambda=5", color=5)
 
-# BigFloat
+# BigFloat (7b)
 Nb=5000;
 setprecision(3072);
 Sb = Jacobi(BigFloat(0.0),1.0) ⊕ JacobiWeight(BigFloat(0.5),0.,Jacobi(BigFloat(0.5),0.5));
@@ -38,7 +38,7 @@ plot!([1500],[log10(abs(yb[1500,3]))],markers=:star5, label=L"\lambda=3", color=
 plot!([2200],[log10(abs(yb[2200,4]))],markers=:diamond, label=L"\lambda=4", color=4)
 plot!([3300],[log10(abs(yb[3300,5]))],markers=:utriangle, label=L"\lambda=5", color=5)
 
-# Sketch of solution
+# Sketch of solution (8)
 xgrid=vcat(-0.99999,-0.99:0.01:1);
 f1=Fun(S,y[:,1]).(xgrid);
 f2=Fun(S,y[:,2]).(xgrid);
@@ -52,7 +52,7 @@ annotate!(0.0,0.2,text("\$\\lambda=2\$",10));
 annotate!(-0.8,0.06,text("\$\\lambda=3\$",10));
 plot!([0 0],[-1 -1], color=:black, label=["numerical" "exact"], linestyle=[:solid :dash])
 
-# Condition numbers
+# Condition numbers (7e)
 include("testmodule.jl")
 using Plots, ApproxFun, LinearAlgebra, GenericLinearAlgebra, ThreadPools
 pgfplotsx()

@@ -9,15 +9,16 @@ m21=findmax(err21, dims=1)
 m22=findmax(err22, dims=1)
 
 # plot configuration
+FONT="Times New Roman"
 layout=Layout(
     xaxis=attr(
         title=attr(
             text="column index",
             font_size=20,
-            font_family="Helvetica",
+            font_family=FONT,
             font_color="black",
         ),
-        tickfont_family="Helvetica",
+        tickfont_family=FONT,
         tickfont_size=15,
         tickfont_color="black",
         mirror=true, showline=true,
@@ -27,10 +28,10 @@ layout=Layout(
         title=attr(
             text="row index",
             font_size=20,
-            font_family="Helvetica",
+            font_family=FONT,
             font_color="black"
         ),
-        tickfont_family="Helvetica",
+        tickfont_family=FONT,
         tickfont_size=15,
         tickfont_color="black",
         autorange="reversed",
@@ -50,7 +51,7 @@ plt1=plot(
         z=err21, 
         contours_showlabels=true, 
         contours_coloring="lines", 
-        contours_labelfont_family="Helvetica",
+        contours_labelfont_family=FONT,
         contours_start=-80, contours_size=10, contours_end=80,
         connectgaps=true, 
         line_smoothing=0.5, 
@@ -66,7 +67,7 @@ plt2=plot(
         z=err22, 
         contours_showlabels=true, 
         contours_coloring="lines", 
-        contours_labelfont_family="Helvetica",
+        contours_labelfont_family=FONT,
         contours_start=-80, contours_size=10, contours_end=80,
         connectgaps=true, 
         line_smoothing=0.5, 

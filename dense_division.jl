@@ -6,15 +6,16 @@ iop11=testmodule.OpI11(α,β,b,p,μ,N);
 iop13=testmodule.OpI13(α,β,b,p,μ,N);
 
 # plot configuration
+FONT="Times New Roman"
 layout=Layout(
     xaxis=attr(
         title=attr(
             text="column index",
             font_size=20,
-            font_family="Helvetica",
+            font_family=FONT,
             font_color="black",
         ),
-        tickfont_family="Helvetica",
+        tickfont_family=FONT,
         tickfont_size=15,
         tickfont_color="black",
         mirror=true, showline=true,
@@ -24,10 +25,10 @@ layout=Layout(
         title=attr(
             text="row index",
             font_size=20,
-            font_family="Helvetica",
+            font_family=FONT,
             font_color="black"
         ),
-        tickfont_family="Helvetica",
+        tickfont_family=FONT,
         tickfont_size=15,
         tickfont_color="black",
         autorange="reversed",
@@ -47,7 +48,7 @@ plt1=PlotlyJS.plot(
         z=log10.(abs.(iopref-iop11)), 
         contours_showlabels=true, 
         contours_coloring="lines", 
-        contours_labelfont_family="Helvetica",
+        contours_labelfont_family=FONT,
         connectgaps=true, 
         line_smoothing=0.5, 
         showscale=false, 

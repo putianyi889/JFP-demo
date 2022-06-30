@@ -32,10 +32,17 @@ for k in 1:length(λ)
     end
 end
 
+# (c)
 plot(abs.(uv), ylims=(1e-17,1), yaxis=:log, legend=:topright, size=(300,250), yticks=10.0.^(-16:4:0),xlabel="coefficient index", ylabel="coefficient value", linestyle=[:solid :dash :dot :solid :dash :dot], linewidth=[1 1 1 2 2 2], labels=latexstring.("\\lambda=",λ))
+
+# (d)
 plot(abs.(err), ylims=(1e-17,1), yaxis=:log, legend=:topright, size=(300,250), yticks=10.0.^(-16:4:0),xlabel="truncation size", ylabel="maximum error", linestyle=[:solid :dash :dot :solid :dash :dot], linewidth=[1 1 1 2 2 2], labels=latexstring.("\\lambda=",λ))
 
+# (f)
 plot(condnumb,yaxis=:log2, yticks=2.0.^(0:2:10), size=(300,250), xlabel="truncation size", ylabel="condition number", linestyle=[:solid :dash :dot :solid :dash :dot], linewidth=[1 1 1 2 2 2], labels=latexstring.("\\lambda=",λ), legend=:bottomright)
 
+# truncation size needed to achieve 1e-14 accuracy = O(λ)
 plot(λ',truncsize,xaxis=:log2, yaxis=:log2, xticks=λ', legend=false, size=(300,250), xlabel=L"\lambda", yticks=16*λ', markers=true, markersize=2, ylabel="truncation size")
+
+# cond=O(λ)
 plot(λ',condnumb[end-1,:],xaxis=:log2, yaxis=:log2, xticks=λ', legend=false, size=(300,250), xlabel=L"\lambda", yticks=2 .^(1:2:11), markers=true, markersize=2, ylabel="condition number")
