@@ -188,7 +188,7 @@ function OpI22_precShifts(α,β,b,p,μ,N;iop=0)
         shifts[n+p]=shift+log2(testmax)
         if testmax>1e300
             shift += log2(testmax);
-            test = CircularArray(test ./ testmax);
+            test ./= testmax;
         end
     end
     return shifts

@@ -46,8 +46,8 @@ layout=Layout(
 )
 
 # integral by part
-plt1=plot(
-    contour(
+plt1=PlotlyJS.plot(
+    PlotlyJS.contour(
         z=err21, 
         contours_showlabels=true, 
         contours_coloring="lines", 
@@ -62,8 +62,8 @@ plt1=plot(
 )
 
 # commutativity
-plt2=plot(
-    contour(
+plt2=PlotlyJS.plot(
+    PlotlyJS.contour(
         z=err22, 
         contours_showlabels=true, 
         contours_coloring="lines", 

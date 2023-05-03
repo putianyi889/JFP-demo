@@ -31,7 +31,7 @@ for n=1:5
     yb[1:min(length(yy),Nb),n]=yy[1:min(length(yy),Nb)]
 end
 yt=-800:200:600;
-plot(log10.(abs.(yb)), size=(300,250), xlabel="coefficient index", ylabel="coefficient value (abs)", legend=:topright, label=false, yticks=(yt,string.("10^{",yt,"}")))
+plot(log10.(abs.(yb)), size=(300,250), xlabel="coefficient index", ylabel="coefficient value (abs)", legend=:topright, label=false, yticks=(yt,latexstring.("10^{",yt,"}")))
 plot!([630],[log10(abs(yb[630,1]))],markers=:xcross, label=L"\lambda=1", color=1, markersize=5)
 plot!([1000],[log10(abs(yb[1000,2]))],markers=:circle, label=L"\lambda=2", color=2, markersize=3)
 plot!([1500],[log10(abs(yb[1500,3]))],markers=:star5, label=L"\lambda=3", color=3)
@@ -46,10 +46,10 @@ f3=Fun(S,y[:,3]).(xgrid);
 @time fb1=Fun(Sb,yb[:,1]).(BigFloat.(xgrid));
 @time fb2=Fun(Sb,yb[:,2]).(BigFloat.(xgrid));
 @time fb3=Fun(Sb,yb[:,3]).(BigFloat.(xgrid));
-plot(-1:0.01:1,[f1 f2 f3 fb1 fb2 fb3], xlims=(-1,1), ylims=(0,1), label=false, size=(300,250), linestyle=[:solid :solid :solid :dash :dash :dash], color=[1 2 3 1 2 3], legend=:topright, xlabel="\$x\$", ylabel="\$u(x)\$");
-annotate!(0.5,0.42,text("\$\\lambda=1\$",10));
-annotate!(0.0,0.2,text("\$\\lambda=2\$",10));
-annotate!(-0.8,0.06,text("\$\\lambda=3\$",10));
+plot(-1:0.01:1,[f1 f2 f3 fb1 fb2 fb3], xlims=(-1,1), ylims=(0,1), label=false, size=(300,250), linestyle=[:solid :solid :solid :dash :dash :dash], color=[1 2 3 1 2 3], legend=:topright, xlabel=L"x", ylabel=L"u(x)");
+annotate!(0.5,0.42,text(L"\lambda=1",10));
+annotate!(0.0,0.2,text(L"\lambda=2",10));
+annotate!(-0.8,0.06,text(L"\lambda=3",10));
 plot!([0 0],[-1 -1], color=:black, label=["numerical" "exact"], linestyle=[:solid :dash])
 
 # Condition numbers (7e)

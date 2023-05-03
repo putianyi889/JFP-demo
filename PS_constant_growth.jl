@@ -16,7 +16,7 @@ for k=1:5
     testmodule.bandedSylvester_halfforward!(ioptest,iop,iop); # perform forward recurrence
     errtest[:,k]=maximum(abs.(ioptest), dims=1)'; # get the simulated errors
 end
-plt=plot((err'./errtest)[3:end,2:5], yaxis=:log, legend=:topright, linestyle=[:dash :solid :dot :dashdot], xlims=(0,1000), xlabel="\$n\$", labels=["[1,1] or [2,2]=1" "[2,1]=1" "[1,2]=1" "[3,2]=1"], legendfonthalign=:right, ylims=(4e-18,4e-15)) # figure on paper
+plt=plot((err'./errtest)[3:end,2:5], yaxis=:log, legend=:topright, linestyle=[:dash :solid :dot :dashdot], xlims=(0,1000), xlabel=L"n", labels=["[1,1] or [2,2]=1" "[2,1]=1" "[1,2]=1" "[3,2]=1"], legendfonthalign=:right, ylims=(4e-18,4e-15)) # figure on paper
 plt=plot(testmodule.finitequot(errtest)) # the growth rates are the same
 plot([plot((err'./errtest)[3:end,k], yaxis=:log, legend=false) for k in 1:5]..., size=(700,500)) # plot 5 lines individually
 plot((err'./errtest)[3:end,:], yaxis=:log) # plot 5 lines together

@@ -13,7 +13,7 @@ for n=1:length(N)
 end
 
 # Plots of fractional integrals
-plot([x->f[u][x] for u in 1:length(U)], xlims=(-1,1), labels=string.("\$\\mu=",U',"\$"), linestyle=[:solid :dash :dashdot :dashdotdot :dot], legend=:bottomright, size=(250,250), xlabel="\$x\$", ylabel=L"$\mathcal{I}^\mu_{-1+}[1](x)$")
+plot([x->f[u][x] for u in 1:length(U)], xlims=(-1,1), labels=latexstring.("\$\\mu=",U',"\$"), linestyle=[:solid :dash :dashdot :dashdotdot :dot], legend=:bottomright, size=(250,250), xlabel=L"x", ylabel=L"$\mathcal{I}^\mu_{-1+}[1](x)$")
 
 # Errors from polynomial approximation
-plot(N,err, xaxis=:log, yaxis=:log, xlabel="truncation size", ylabel="error", labels=string.("\$\\mu=",U',"\$"), yticks=10.0.^(0:-1:-7), xticks=10.0.^(0:6), legend=:bottomleft, size=(250,250), linestyle=[:solid :dash :dashdot :dashdotdot :dot])
+plot(N,err, xaxis=:log, yaxis=:log, xlabel="truncation size", ylabel="error", labels=latexstring.("\$\\mu=",U',"\$"), yticks=10.0.^(0:-1:-7), xticks=10.0.^(0:6), legend=:bottomleft, size=(250,250), linestyle=[:solid :dash :dashdot :dashdotdot :dot])

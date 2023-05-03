@@ -12,7 +12,7 @@ xksol=F[xgrid,1:2*K+1]';
 
 # initial condition
 f=exp.(-cos.(2*x)+0.5*sin.(x))-2*sin.(sin.(x));
-Plots.plot(xgrid,f[xgrid], xlabel="\$x\$", ylabel="\$f(x)\$", label=false, xticks=((0:0.5π:2π),["0" "\$\\pi/2\$" "\$\\pi\$" "\$3\\pi/2\$" "\$2\\pi\$"]), xlims=(0,2π))
+Plots.plot(xgrid,f[xgrid], xlabel=L"x", ylabel=L"f(x)", label=false, xticks=((0:0.5π:2π),["0" "\$\\pi/2\$" "\$\\pi\$" "\$3\\pi/2\$" "\$2\\pi\$"]), xlims=(0,2π))
 
 # Fourier coefficients of the initial condition
 fv=(F\f)[1:2*K+1];
@@ -82,7 +82,7 @@ plt=PlotlyJS.plot(
 )
 
 # contour plot (Plots.pgfplotsx and PlotlyJS)
-Plots.contour(Float16.(xgrid), Float16.(T/2*tgridshift), Float16.(sol), xlabel="\$x\$", ylabel="\$t\$", xticks=((0:0.5π:2π),["0" "\$\\pi/2\$" "\$\\pi\$" "\$3\\pi/2\$" "\$2\\pi\$"]), xlims=(0,2π), framestyle=:box, size=(300,270), colorbar=false)
+Plots.contour(Float16.(xgrid), Float16.(T/2*tgridshift), Float16.(sol), xlabel=L"x", ylabel=L"t", xticks=((0:0.5π:2π),["0" "\$\\pi/2\$" "\$\\pi\$" "\$3\\pi/2\$" "\$2\\pi\$"]), xlims=(0,2π), framestyle=:box, size=(300,270), colorbar=false)
 
 layout=Layout(
     xaxis=attr(
@@ -140,7 +140,7 @@ plt1=PlotlyJS.plot(
 
 # wireframe plot
 l=(minimum(sol),maximum(sol))
-Plots.plot(size=(300,300), camera=(30,30), legend=false, xlims=(0,2π), ylims=(0,8), zlims=l, xlabel="\$x\$", ylabel="\$t\$", zlabel="\$u\$", xticks=((0:0.5π:2π),["0" "\$\\pi/2\$" "\$\\pi\$" "\$3\\pi/2\$" "\$2\\pi\$"]), foreground_color_grid=:gray90, gridalpha=1, framestyle=:box)
+Plots.plot(size=(300,300), camera=(30,30), legend=false, xlims=(0,2π), ylims=(0,8), zlims=l, xlabel=L"x", ylabel=L"t", zlabel=L"u", xticks=((0:0.5π:2π),["0" "\$\\pi/2\$" "\$\\pi\$" "\$3\\pi/2\$" "\$2\\pi\$"]), foreground_color_grid=:gray90, gridalpha=1, framestyle=:box)
 for x in 1:8:length(xgrid)
     Plots.plot!(Float16.(xgrid[x]*ones(length(tgridshift))),Float16.(T/2*tgridshift),Float16.(sol[:,x]), color=:blue, linewidth=0.3)
 end
