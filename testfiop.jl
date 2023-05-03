@@ -97,11 +97,9 @@ function OpI21(α,β,b,p,μ,N)
     end
     return ret;
 end
-
-OpI22_unstable(α,β,b,p,μ,N)=OpI22_sumrefine(α,β,b,p,μ,N)
 OpI22(α,β,b,p,μ,N)=OpI22_stable(α,β,b,p,μ,N)
 
-function OpI22_sumrefine(α,β,b,p,μ,N; sumstrat="plain", refine="false")
+function OpI22_unstable(α,β,b,p,μ,N)
     #OpI2_check(β,b,p,μ)
     if N<p
         return OpI11(α,β,b,p,μ,N)
@@ -116,15 +114,7 @@ function OpI22_sumrefine(α,β,b,p,μ,N; sumstrat="plain", refine="false")
         left=max(n-p,1)
         for m=1:n+p+k
             top=max(m-p,1); bottom=min(m+p,N+k+1)
-            ret[m,n+p]=(sumprod(iop[m,top:bottom],ret[top:bottom,n],sumstrat=sumstrat)-sumprod(ret[m,left:n+p-1],iop[left:n+p-1,n],sumstrat=sumstrat))/iop[n+p,n]
-            if refine=="false"
-            elseif refine=="add"
-                ret[m,n+p]+=(sumprod(iop[m,top:bottom],ret[top:bottom,n],sumstrat=sumstrat)-sumprod(ret[m,left:n+p],iop[left:n+p,n],sumstrat=sumstrat))/iop[n+p,n]
-            elseif refine=="mult"
-                ret[m,n+p] *= 1+(sumprod(iop[m,top:bottom],ret[top:bottom,n],sumstrat=sumstrat)-sumprod(ret[m,left:n+p],iop[left:n+p,n],sumstrat=sumstrat))/(iop[n+p,n]*ret[m,n+p])
-            else
-                @error "Not implemented for refine=\"$refine\"!"
-            end
+            ret[m,n+p]=(iop[m,top:bottom]⋅ret[top:bottom,n]-ret[m,left:n+p-1]⋅iop[left:n+p-1,n])/iop[n+p,n]
         end
     end
     return ret;

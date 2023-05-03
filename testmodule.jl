@@ -5,7 +5,7 @@ Pkg.activate("JFP-demo")
 module testmodule
 using ClassicalOrthogonalPolynomials
 using ClassicalOrthogonalPolynomials: (..), Inclusion, massmatrix
-using KahanSummation, SparseArrays, QuasiArrays, LaTeXStrings, Plots, CircularArrays, LinearAlgebra, FillArrays, FastTransforms, LazyArrays, BandedMatrices, ThreadPools, SpecialFunctions
+using SparseArrays, LaTeXStrings, Plots, CircularArrays, LinearAlgebra, BandedMatrices, ThreadPools, SpecialFunctions
 
 include("testpkg.jl")
 include("testplot.jl")

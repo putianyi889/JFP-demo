@@ -1,18 +1,6 @@
 using QuasiArrays
 using BandedMatrices: BandedColumnMajor, bidiagonalize!
 
-export mul_kbn
-
-function mul_kbn(A,B)
-    C=zeros(promote_type(eltype(A),eltype(B)),size(A,1),size(B,2))
-    for m=1:size(A,1)
-        for n=1:size(B,2)
-            C[m,n]=sum_kbn(A[m,:] .* B[:,n])
-        end
-    end
-    return C
-end
-
 Base.issubset(A::AbstractQuasiArray,B::AbstractQuasiArray) = true
 
 function BandedMatrices._bidiagonalize!(A::AbstractMatrix{BigFloat}, M::BandedColumnMajor)
@@ -59,20 +47,3 @@ function LinearAlgebra.cond(A::BandedMatrix{BigFloat})
     v=eigvals(SymTridiagonal(B'*B))
     sqrt(v[end]/v[1])
 end
-
-# New package
-export FunArray,FunVector,FunMatrix
-
-struct FunArray{T,N} <: AbstractArray{T,N}
-    fun::Function
-    sz::NTuple{N,TT} where TT <: Integer
-end
-Base.size(A::FunArray)=A.sz
-Base.getindex(A::FunArray{T,N},I::Vararg{Int,N}) where {T,N}=T(A.fun(I...))
-
-const FunVector{T}=FunArray{T,1}
-const FunMatrix{T}=FunArray{T,2}
-
-FunArray(T::Type,fun::Function,sz...)=FunArray{T,length(sz)}(fun,sz)
-FunVector(T::Type,fun::Function,sz)=FunArray{T,1}(fun,(sz,))
-FunMatrix(T::Type,fun::Function,sz1,sz2)=FunArray{T,2}(fun,(sz1,sz2))

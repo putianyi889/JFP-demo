@@ -23,21 +23,6 @@ function y2x(p)
     return (one(p) .+y).^p .* 2^(one(p)-p) .- one(p);
 end
 
-# Array functions
-function sumprod(a,b;sumstrat="plain")
-    if sumstrat=="plain"
-        return sum(a.*b)
-    elseif sumstrat=="dot"
-        return a⋅b
-    elseif sumstrat=="matrix"
-        return (a'*b)[1,1]
-    elseif sumstrat=="kahan"
-        return sum_kbn(a.*b)
-    else
-        @error "Not implemented for sumstrat=\"$sumstrat\"!"
-    end
-end
-
 # for argument k, see document for "triu"
 function triu2vec(M,k::Integer)
     s=size(M)
@@ -85,14 +70,6 @@ PEval(α,β,f,y) = Jacobi(α,β)[y,1:size(f,2)]*f;
 function QEval(α,β,b,p,f,x)
     y=x2y.(x,p)
     return (1 .+ y).^b .* PEval(α,β,f,y)
-end
-
-function mittleff_series(α,β,z,n)
-    ret=BigFloat(0);
-    for k=0:n
-        ret += (z^k)/gamma(β+α*k);
-    end
-    return ret
 end
 
 finitediff(v::AbstractVector;step=1)=(v[step+1:end]-v[1:end-step])./step
