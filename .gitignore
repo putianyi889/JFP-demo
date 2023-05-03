@@ -30,3 +30,4 @@ Manifest.toml
 *.tex
 *.svg
 *.mat
+runtests.jl
