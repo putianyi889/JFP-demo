@@ -19,8 +19,8 @@ condnumb=zeros(N,length(λ)); # condition numbers w.r.t. truncation size and λ
 for k in 1:length(λ)
     uv[:,k]=(I+λ[k]^2*iop[1:N+1,1:N+1])\fv
     u=testmodule.mittleff_matlab.(μ,-λ[k]^2*(0:0.01:2).^μ)
-    for n in 1:N
-        print(n," ")
+    for n in ProgressBar(1:N)
+        #print(n," ")
         err[n,k]=maximum(abs.(u-Qgrid[:,1:n]*uv[1:n,k]))
         condnumb[n,k]=cond(I+λ[k]^2*iop[1:n,1:n])
     end
